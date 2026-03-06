@@ -7,21 +7,21 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "interactive-press interactive-fill relative inline-flex items-center justify-center overflow-hidden rounded-none border border-border px-4 py-2 text-sm font-medium uppercase tracking-[0.22em] text-foreground transition-[color,border-color,box-shadow,transform] duration-200 ease-out disabled:pointer-events-none disabled:opacity-40",
+  "relative inline-flex items-center justify-center overflow-hidden rounded-md border px-5 py-2.5 text-[13px] font-medium tracking-[0.02em] transition-all duration-300 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
   {
     variants: {
       variant: {
         default:
-          "bg-foreground text-background hover:border-foreground hover:text-background",
+          "bg-foreground text-background border-foreground/20 hover:bg-foreground/95 hover:border-foreground/30 active:scale-[0.98]",
         inverse:
-          "bg-background text-foreground hover:border-foreground hover:text-background",
+          "bg-transparent text-foreground border-white/15 hover:bg-white/[0.08] hover:border-white/25 active:scale-[0.98]",
         ghost:
-          "bg-transparent text-foreground hover:border-foreground hover:text-background",
+          "bg-transparent text-foreground border-transparent hover:bg-white/[0.06] active:scale-[0.98]",
       },
       size: {
-        default: "h-11 min-w-32",
-        sm: "h-9 min-w-24 px-3 text-xs",
-        lg: "h-12 min-w-36 px-6",
+        default: "h-11 min-w-[120px]",
+        sm: "h-9 min-w-[100px] px-4 text-xs",
+        lg: "h-12 min-w-[140px] px-6 text-sm",
       },
     },
     defaultVariants: {
@@ -47,7 +47,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, size, className }))}
         {...props}
       >
-        <span className="relative z-10">{children}</span>
+        {children}
       </Comp>
     )
   }

@@ -1,9 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { AnimatedWords, AnimatedChars } from "@/components/animated-text"
+import { useRef } from "react"
 
 const toolbox = [
   "Python / C++ / TypeScript",
@@ -30,132 +32,427 @@ const timeline = [
   },
 ]
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.12 },
-  },
-}
-
-const slideLeft = {
-  hidden: { opacity: 0, x: -72 },
-  show: { opacity: 1, x: 0, transition: { type: "spring", damping: 24, stiffness: 200 } },
-}
-const slideRight = {
-  hidden: { opacity: 0, x: 72 },
-  show: { opacity: 1, x: 0, transition: { type: "spring", damping: 24, stiffness: 200 } },
-}
-const slideUp = {
-  hidden: { opacity: 0, y: 48 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", damping: 22, stiffness: 180 } },
-}
-
 export default function HomePage() {
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  })
+
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 200])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.9])
+
   return (
-    <motion.div
-      className="space-y-12 md:space-y-16"
-      initial="hidden"
-      animate="show"
-      variants={container}
-    >
-      <section className="grid gap-8 xl:grid-cols-[1.4fr_0.85fr]">
-        <motion.div variants={slideLeft}>
-          <Card className="grain-overlay min-h-[26rem] border-white/10 bg-[#0a0a0a]/80">
-            <CardHeader className="flex h-full flex-col justify-between gap-10">
-              <div className="space-y-6">
+    <div className="space-y-32 md:space-y-40 cinematic-bg relative">
+      {/* MORE Moving decorative elements */}
+      <motion.div
+        className="fixed top-1/4 right-1/3 w-px h-64 bg-gradient-to-b from-white/10 via-white/5 to-transparent pointer-events-none"
+        animate={{
+          y: [0, 40, 0],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="fixed bottom-1/3 left-1/4 w-px h-48 bg-gradient-to-t from-white/10 via-white/5 to-transparent pointer-events-none"
+        animate={{
+          y: [0, -30, 0],
+          opacity: [0.2, 0.5, 0.2],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      />
+      <motion.div
+        className="fixed top-1/2 left-1/2 w-[800px] h-[800px] rounded-full bg-white/[0.015] blur-3xl pointer-events-none"
+        animate={{
+          scale: [1, 1.3, 1],
+          x: [-100, 100, -100],
+          y: [-50, 50, -50],
+        }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Dramatic Hero Section */}
+      <motion.section
+        ref={heroRef}
+        className="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
+        style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
+      >
+        {/* Floating decorative elements */}
+        <motion.div
+          className="absolute top-1/4 right-1/4 h-px w-48 bg-white/10"
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 0.4 }}
+          transition={{ duration: 2, delay: 1 }}
+          style={{ transformOrigin: "left" }}
+        />
+        <motion.div
+          className="absolute bottom-1/3 left-1/4 h-px w-32 bg-white/10"
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 0.3 }}
+          transition={{ duration: 2, delay: 1.3 }}
+          style={{ transformOrigin: "right" }}
+        />
+
+        {/* Ambient floating glow */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.03] blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
+          {/* Small label */}
+          <motion.div
+            className="flex justify-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <motion.span
+              className="inline-block px-4 py-2 border border-white/10 text-[10px] font-extralight uppercase tracking-[0.4em] text-muted-foreground"
+              whileHover={{ borderColor: "rgba(255,255,255,0.2)", scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              Portfolio 2026
+            </motion.span>
+          </motion.div>
+
+          {/* Main name - HUGE and thin/cinematic */}
+          <motion.h1
+            className="text-7xl sm:text-8xl md:text-9xl tracking-tight mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1 }}
+          >
+            <motion.span
+              className="block font-display font-extralight tracking-[0.2em] mb-4 uppercase"
+              initial={{ opacity: 0, y: 80, filter: "blur(20px)" }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+              }}
+              transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Alejo
+            </motion.span>
+            <motion.span
+              className="block font-display text-6xl sm:text-7xl md:text-8xl font-light tracking-[0.15em] text-foreground/90 uppercase"
+              initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                filter: "blur(0px)",
+              }}
+              transition={{ duration: 1.2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Francisco
+            </motion.span>
+            <motion.span
+              className="block font-display text-5xl sm:text-6xl md:text-7xl font-light text-foreground/85 normal-case tracking-wide"
+              initial={{ opacity: 0, scale: 0.9, filter: "blur(20px)" }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                filter: "blur(0px)",
+              }}
+              transition={{ duration: 1.2, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Cagliolo
+            </motion.span>
+          </motion.h1>
+
+          {/* Subtitle with animated chars */}
+          <motion.div
+            className="flex flex-col items-center gap-6 mb-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.4 }}
+          >
+            <AnimatedChars
+              text="CS + Finance · Builder · Systems Thinker"
+              className="text-xl sm:text-2xl font-light tracking-wide"
+              staggerDelay={0.02}
+              initialDelay={2.6}
+            />
+
+            <motion.div
+              className="h-px w-64 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.5, delay: 3.2 }}
+            />
+
+            <motion.p
+              className="max-w-2xl text-[15px] font-light leading-relaxed text-muted-foreground/80"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 3.6 }}
+            >
+              Purdue CS (May 2027). Founding Engineer @ ACS. Building quantitative systems, ML infrastructure, and premium interfaces.
+            </motion.p>
+          </motion.div>
+
+          {/* CTA Buttons — animated hover */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-4"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 4 }}
+          >
+            <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.98 }}>
+              <Button asChild size="lg" className="text-[13px] font-light tracking-wide px-8">
+                <Link href="/projects">View Projects</Link>
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.98 }}>
+              <Button asChild size="lg" variant="outline" className="text-[13px] font-light tracking-wide px-8">
+                <Link href="/links">Connect</Link>
+              </Button>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          transition={{ duration: 1, delay: 4.5 }}
+        >
+          <span className="text-[9px] font-light uppercase tracking-[0.4em] text-muted-foreground/60">
+            Scroll
+          </span>
+          <motion.div
+            className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent"
+            animate={{ scaleY: [1, 0.5, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      </motion.section>
+
+      {/* Stats Cards with dramatic hover */}
+      <section className="grid gap-8 lg:grid-cols-3">
+        {[
+          {
+            label: "Focus",
+            value: "Quantitative Systems & ML Infrastructure",
+            delay: 0.1,
+          },
+          {
+            label: "Current Work",
+            value: "ACS · Helios · AlphaSignal",
+            delay: 0.2,
+          },
+          {
+            label: "Philosophy",
+            value: "Premium Design · Strong Systems · Ship Fast",
+            delay: 0.3,
+          },
+        ].map((item, i) => (
+          <motion.div
+            key={item.label}
+            initial={{ opacity: 0, y: 80, filter: "blur(16px)" }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+            }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.9, delay: item.delay, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Card className="card-tilt card-float group h-full border-white/[0.08] bg-card/80 backdrop-blur-sm overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <CardHeader className="relative z-10">
                 <motion.span
-                  variants={slideLeft}
-                  className="inline-block border border-white/20 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-white/70"
+                  className="text-[10px] font-light uppercase tracking-[0.4em] text-muted-foreground/70 mb-4 block"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: item.delay + 0.3 }}
                 >
-                  cs + finance / builder
+                  {item.label}
                 </motion.span>
-                <div className="space-y-5">
-                  <motion.p variants={slideLeft} className="text-[11px] uppercase tracking-[0.32em] text-white/40">
-                    Alejo Francisco Cagliolo — Purdue CS + Finance — 2026
-                  </motion.p>
-                  <motion.h1
-                    variants={slideLeft}
-                    className="max-w-4xl text-4xl font-semibold uppercase leading-[0.95] tracking-tight text-[#f5f1e8] sm:text-5xl md:text-6xl"
-                  >
-                    Minimal brutalism.
-                    <br />
-                    Black glass.
-                    <br />
-                    Sharp code.
-                  </motion.h1>
-                  <motion.p variants={slideLeft} className="max-w-2xl text-sm leading-7 text-white/50 sm:text-base">
-                    CS (Purdue, May 2027). Founding Engineer @ ACS. Quant (Helios), ML + C++ (AlphaSignal). Systems thinking, bias to ship.
-                  </motion.p>
-                </div>
-              </div>
-              <motion.div variants={container} className="grid gap-4 border-t border-white/10 pt-6 sm:grid-cols-3">
-                {[
-                  ["Focus", "Quant + ML, full-stack"],
-                  ["Current", "ACS · Helios · AlphaSignal"],
-                  ["Style", "Brutalist, motion-heavy"],
-                ].map(([label, value]) => (
-                  <motion.div key={label} variants={slideUp} className="space-y-1">
-                    <p className="text-[10px] uppercase tracking-widest text-white/35">{label}</p>
-                    <p className="text-xs tracking-wide text-white/65">{value}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </CardHeader>
-          </Card>
-        </motion.div>
-
-        <motion.div variants={slideRight}>
-          <Card className="border-white/10 bg-[#0a0a0a]/80">
-            <CardHeader>
-              <CardTitle className="text-[11px] uppercase tracking-widest text-white/90">Stack</CardTitle>
-              <p className="text-xs text-white/45">Python, C++, TypeScript · FastAPI, Next.js · GCP, Terraform.</p>
-            </CardHeader>
-            <CardContent className="space-y-0">
-              {toolbox.map((t, i) => (
-                <motion.div
-                  key={t}
-                  variants={slideRight}
-                  custom={i}
-                  className="flex items-center justify-between border-b border-white/5 py-3 last:border-0"
-                >
-                  <span className="text-xs uppercase tracking-wider text-white/55">{t}</span>
-                  <span className="size-1.5 border border-white/20" />
-                </motion.div>
-              ))}
-            </CardContent>
-          </Card>
-        </motion.div>
-      </section>
-
-      <section className="grid gap-6 lg:grid-cols-3">
-        {timeline.map((entry, index) => (
-          <motion.div key={entry.title} variants={slideUp} transition={{ delay: index * 0.08 }}>
-            <Link href={entry.href}>
-              <Card className="group h-full border-white/10 bg-[#0a0a0a]/80 transition-all hover:border-white/20 hover:bg-[#0d0d0d]">
-                <CardHeader>
-                  <CardTitle className="text-xs uppercase tracking-widest text-white/80 group-hover:text-white">
-                    {entry.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs leading-7 text-white/45">{entry.detail}</p>
-                  <p className="mt-3 text-[10px] uppercase tracking-widest text-white/25">→</p>
-                </CardContent>
-              </Card>
-            </Link>
+                <CardTitle className="text-xl font-light leading-relaxed tracking-tight">
+                  {item.value}
+                </CardTitle>
+              </CardHeader>
+            </Card>
           </motion.div>
         ))}
       </section>
 
-      <motion.div variants={slideUp} className="flex flex-wrap gap-3">
-        <Button asChild variant="default" className="border-white/20 bg-white/10 text-[#f5f1e8] hover:bg-white/15">
-          <Link href="/links">Hire / connect</Link>
-        </Button>
-        <Button asChild variant="outline" className="border-white/15 text-white/60 hover:text-white/90">
-          <Link href="/resume">See resume</Link>
-        </Button>
-      </motion.div>
-    </motion.div>
+      {/* Stack section with staggered items */}
+      <section>
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-[11px] font-light uppercase tracking-[0.4em] text-muted-foreground mb-4">
+            Stack
+          </h2>
+          <p className="font-display text-4xl sm:text-5xl font-light tracking-wide">
+            Technologies & Tools
+          </p>
+        </motion.div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {toolbox.map((tech, i) => (
+            <motion.div
+              key={tech}
+              initial={{ opacity: 0, y: 60, rotateX: 12 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                rotateX: 0,
+              }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{
+                duration: 0.8,
+                delay: i * 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              whileHover={{ y: -3 }}
+            >
+              <Card className="card-hover group border-white/[0.08] bg-card/60 backdrop-blur-sm h-full">
+                <CardContent className="pt-6 flex items-center justify-between">
+                  <span className="text-[13px] font-light tracking-tight">{tech}</span>
+                  <motion.span
+                    className="size-2 rounded-full bg-foreground/40 group-hover:bg-foreground"
+                    whileHover={{ scale: 1.8, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Timeline preview cards */}
+      <section>
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-[11px] font-light uppercase tracking-[0.4em] text-muted-foreground mb-4">
+            Overview
+          </h2>
+          <p className="font-display text-4xl sm:text-5xl font-light tracking-wide">
+            Recent Work
+          </p>
+        </motion.div>
+
+        <div className="grid gap-8 lg:grid-cols-3">
+          {timeline.map((entry, index) => (
+            <motion.div
+              key={entry.title}
+              initial={{ opacity: 0, y: 100, scale: 0.96 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: 0.9,
+                delay: index * 0.15,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              whileHover={{ y: -4 }}
+            >
+              <Link href={entry.href}>
+                <Card className="card-tilt group h-full border-white/[0.08] bg-card/70 backdrop-blur-sm overflow-hidden relative">
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="text-lg font-light tracking-tight mb-4 group-hover:text-foreground transition-colors">
+                      {entry.title}
+                    </CardTitle>
+                    <p className="text-[13px] font-light leading-relaxed text-muted-foreground">
+                      {entry.detail}
+                    </p>
+                    <motion.p
+                      className="mt-6 text-[11px] font-light tracking-[0.3em] text-muted-foreground/70 group-hover:text-muted-foreground"
+                      whileHover={{ x: 6 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      View →
+                    </motion.p>
+                  </CardHeader>
+                </Card>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <motion.section
+        className="py-20 text-center"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+      >
+        <motion.p
+          className="font-display text-5xl sm:text-6xl mb-12 font-light tracking-wide"
+          initial={{ opacity: 0, scale: 0.9, filter: "blur(12px)" }}
+          whileInView={{
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+          }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          Let's build something
+        </motion.p>
+        <motion.div
+          className="flex flex-wrap justify-center gap-4"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
+            <Button asChild size="lg" variant="default" className="font-light tracking-wide">
+              <Link href="/links">Get in touch</Link>
+            </Button>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
+            <Button asChild size="lg" variant="outline" className="font-light tracking-wide">
+              <Link href="/resume">See resume</Link>
+            </Button>
+          </motion.div>
+        </motion.div>
+      </motion.section>
+    </div>
   )
 }
