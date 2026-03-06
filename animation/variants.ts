@@ -11,7 +11,7 @@ export type LoadingExitStyle = (typeof ANIMATION.loading)["exitStyle"]
 /** Full-screen loading exit animations (inspired by Framer "slide up to reveal" + SVGator page transition effects) */
 export const loadingExitVariants: Record<
   LoadingExitStyle,
-  { exit: { [key: string]: unknown }; transition: { duration: number; delay: number; ease: number[] } }
+  { exit: { [key: string]: unknown }; transition: { duration: number; delay: number; ease: readonly number[] } }
 > = {
   slideUp: {
     exit: {

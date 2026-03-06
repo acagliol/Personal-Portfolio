@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { AnimatedWords, AnimatedChars } from "@/components/animated-text"
 import { useRef } from "react"
+import { blogPosts } from "@/lib/blog-posts"
 
 const toolbox = [
   "Python / C++ / TypeScript",
@@ -29,6 +30,11 @@ const timeline = [
     title: "Coursework",
     detail: "Data Structures & Algorithms, Computer Architecture, Linear Algebra, Discrete Mathematics.",
     href: "/resume",
+  },
+  {
+    title: "Blogs",
+    detail: "Technical writing on quant systems, ML pipelines, and product engineering decisions.",
+    href: "/blogs",
   },
 ]
 
@@ -227,7 +233,7 @@ export default function HomePage() {
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.98 }}>
-              <Button asChild size="lg" variant="outline" className="text-[13px] font-light tracking-wide px-8">
+              <Button asChild size="lg" variant="inverse" className="text-[13px] font-light tracking-wide px-8">
                 <Link href="/links">Connect</Link>
               </Button>
             </motion.div>
@@ -370,7 +376,7 @@ export default function HomePage() {
           </p>
         </motion.div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
           {timeline.map((entry, index) => (
             <motion.div
               key={entry.title}
@@ -413,6 +419,71 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section>
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-[11px] font-light uppercase tracking-[0.4em] text-muted-foreground mb-4">
+            Writing
+          </h2>
+          <p className="font-display text-4xl sm:text-5xl font-light tracking-wide">
+            Latest blogs
+          </p>
+        </motion.div>
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          {blogPosts.slice(0, 2).map((post, index) => (
+            <motion.div
+              key={post.slug}
+              initial={{ opacity: 0, y: 80, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: 0.8,
+                delay: index * 0.15,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              whileHover={{ y: -4 }}
+            >
+              <Link href={post.href ?? `/blogs/${post.slug}`} className="block">
+                <Card className="card-tilt group h-full border-white/[0.08] bg-card/70 backdrop-blur-sm overflow-hidden relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <CardHeader className="relative z-10">
+                    <p className="text-[10px] font-light uppercase tracking-[0.35em] text-muted-foreground/70">
+                      {post.displayDate} / {post.readTime}
+                    </p>
+                    <CardTitle className="text-2xl font-light tracking-tight">
+                      {post.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="relative z-10">
+                    <p className="text-[14px] font-light leading-relaxed text-muted-foreground">
+                      {post.summary}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          className="mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Button asChild variant="inverse" className="font-light tracking-wide">
+            <Link href="/blogs">Read all blogs</Link>
+          </Button>
+        </motion.div>
+      </section>
+
       {/* Final CTA */}
       <motion.section
         className="py-20 text-center"
@@ -447,7 +518,7 @@ export default function HomePage() {
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
-            <Button asChild size="lg" variant="outline" className="font-light tracking-wide">
+            <Button asChild size="lg" variant="inverse" className="font-light tracking-wide">
               <Link href="/resume">See resume</Link>
             </Button>
           </motion.div>
