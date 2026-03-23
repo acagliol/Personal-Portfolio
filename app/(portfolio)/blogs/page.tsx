@@ -60,8 +60,7 @@ export default function BlogsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.6 }}
           >
-            Brief essays on the systems I build, from pricing infrastructure and ML workflows to
-            performance-focused product design.
+            My thoughts and updates on life, projects, and what I am learning along the way.
           </motion.p>
         </motion.div>
       </div>

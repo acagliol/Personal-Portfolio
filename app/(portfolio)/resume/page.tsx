@@ -7,6 +7,25 @@ import { ArrowUpRight } from "lucide-react"
 
 const experience = [
   {
+    company: "General Motors Financial",
+    role: "Software Engineer Intern",
+    period: "Incoming May 2026",
+    location: "Arlington, TX",
+    bullets: [
+      "Incoming Software Engineer Intern for Summer 2026.",
+    ],
+  },
+  {
+    company: "Ceptrum Labs",
+    role: "Solution Consultant",
+    period: "Mar 2026 – Present",
+    location: "San Francisco, CA",
+    bullets: [
+      "Partnered with carrier teams to uncover network troubleshooting pain points and align Neuraltap's AI platform to customer needs.",
+      "Led demos and pilots with founder and engineering, tailoring solutions to vendor environments and driving adoption.",
+    ],
+  },
+  {
     company: "Automated Consultancy Services",
     role: "Founding Engineer",
     period: "Jan 2025 – Present",
@@ -42,13 +61,58 @@ const experience = [
   },
 ]
 
-const education = {
-  school: "Purdue University",
-  degree: "B.S. Computer Science, Minor in Finance and Economics",
-  period: "Expected May 2027",
-  gpa: "GPA 3.45/4.0",
-  clubs: "Purdue Powerlifting, Sailing, Startup Club",
-}
+const education = [
+  {
+    school: "Purdue University",
+    degree: "B.S. Computer Science, Minor in Finance and Economics",
+    period: "Expected May 2027",
+    location: "West Lafayette, IN",
+    gpa: "GPA 3.45/4.0",
+    clubs: "Purdue Powerlifting, Sailing, Startup Club",
+  },
+  {
+    school: "Bocconi University",
+    degree: "Study Abroad in Finance and Quantitative Methods",
+    period: "Aug – Dec 2026",
+    location: "Milan, Italy",
+    gpa: "",
+    clubs: "Futbol Club, Golf Club, Entrepreneurship Club, Trading Club",
+  },
+]
+
+const projects = [
+  {
+    name: "WARNSignal",
+    tech: "Python, FastAPI, PostgreSQL, Next.js, SciPy, statsmodels",
+    period: "Mar 2026",
+    bullets: [
+      "Event study on 4,284 WARN Act mass layoff filings across 9 states; built web scrapers for state government sites with entity resolution matching company names to 1,067 public tickers (85% confidence threshold, SEC EDGAR fallback).",
+      "Calculated cumulative abnormal returns (CAR) using market model estimation; discovered signal inversion: stocks average +2.71% at 30 days post-filing (t=8.44, p<0.0001) instead of predicted decline.",
+      "Ran backtest with -99% total return proving WARN filings are lagging indicators; confirmed semi-strong market efficiency through sub-sample analysis across sectors and market caps.",
+      "Built full pipeline: scraping, entity resolution, price fetching, event studies, backtesting; 42 pytest tests, research report with charts, one-page PDF memo.",
+    ],
+  },
+  {
+    name: "Helios Quantitative Research Platform",
+    tech: "Python, QuantLib, NumPy, SciPy, Next.js, TypeScript",
+    period: "Oct 2025 – Present",
+    bullets: [
+      "Options pricing library: Black-Scholes, Heston stochastic volatility (calibrated to 250+ SPY strikes, 0.8 vol RMSE), exotic derivatives.",
+      "Monte Carlo engine: 1M paths in 33ms, 8.1x variance reduction via control variates.",
+      "Portfolio optimization: Markowitz, risk parity, CVaR with Next.js frontend; validated against QuantLib (<0.001% error).",
+    ],
+  },
+  {
+    name: "AlphaSignal - Alternative Data Platform",
+    tech: "Python, FastAPI, XGBoost, C++, PostgreSQL, Next.js",
+    period: "Aug 2025 – Present",
+    bullets: [
+      "XGBoost stock direction classifier: 53.7% accuracy (AUC: 0.586) on 230-day AAPL dataset with time-series CV; backtested +18.1% returns.",
+      "Engineered 31 technical/momentum features with strict look-ahead bias prevention.",
+      "Accelerated RSI/MACD 15-20x via C++ (pybind11); FastAPI + PostgreSQL backend with Next.js dashboard; Fama-French 3-factor attribution.",
+    ],
+  },
+]
 
 const skills = [
   "Python",
@@ -142,34 +206,50 @@ export default function ResumePage() {
       </div>
 
       {/* Education section */}
-      <motion.section
-        initial={{ opacity: 0, y: 80 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <h2 className="font-cinzel text-3xl font-light tracking-wide mb-8">Education</h2>
-        <Card className="card-tilt border-white/[0.08] bg-card/70 backdrop-blur-sm overflow-hidden relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-700" />
-          <CardHeader className="relative z-10">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <CardTitle className="text-2xl font-bebas uppercase tracking-wider mb-2">
-                  {education.school}
-                </CardTitle>
-                <p className="text-[13px] font-light text-muted-foreground">{education.degree}</p>
-              </div>
-              <span className="text-[11px] font-light uppercase tracking-[0.3em] text-muted-foreground/70">
-                {education.period}
-              </span>
-            </div>
-          </CardHeader>
-          <CardContent className="relative z-10 space-y-3 text-[13px] font-light text-muted-foreground">
-            <p>{education.gpa}</p>
-            <p>Activities: {education.clubs}</p>
-          </CardContent>
-        </Card>
-      </motion.section>
+      <section>
+        <motion.h2
+          className="font-cinzel text-3xl font-light tracking-wide mb-8"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          Education
+        </motion.h2>
+
+        <div className="space-y-6">
+          {education.map((edu, idx) => (
+            <motion.div
+              key={edu.school}
+              initial={{ opacity: 0, y: 80 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.9, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Card className="card-tilt border-white/[0.08] bg-card/70 backdrop-blur-sm overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-700" />
+                <CardHeader className="relative z-10">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <CardTitle className="text-2xl font-bebas uppercase tracking-wider mb-2">
+                        {edu.school}
+                      </CardTitle>
+                      <p className="text-[13px] font-light text-muted-foreground">{edu.degree} · {edu.location}</p>
+                    </div>
+                    <span className="text-[11px] font-light uppercase tracking-[0.3em] text-muted-foreground/70">
+                      {edu.period}
+                    </span>
+                  </div>
+                </CardHeader>
+                <CardContent className="relative z-10 space-y-3 text-[13px] font-light text-muted-foreground">
+                  {edu.gpa && <p>{edu.gpa}</p>}
+                  <p>Activities: {edu.clubs}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
       {/* Experience section */}
       <section>
@@ -248,6 +328,80 @@ export default function ResumePage() {
                         delay: idx * 0.15 + 0.6 + i * 0.1,
                         ease: [0.16, 1, 0.3, 1],
                       }}
+                    >
+                      <span className="text-foreground/40 mt-1">•</span>
+                      <p className="flex-1">{bullet}</p>
+                    </motion.div>
+                  ))}
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Projects section */}
+      <section>
+        <motion.h2
+          className="font-cinzel text-3xl font-light tracking-wide mb-12"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          Projects
+        </motion.h2>
+
+        <div className="space-y-8">
+          {projects.map((project, idx) => (
+            <motion.div
+              key={project.name}
+              initial={{ opacity: 0, y: 100, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Card className="card-tilt group border-white/[0.08] bg-card/70 backdrop-blur-sm overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <motion.div
+                  className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.2, delay: idx * 0.15 + 0.4 }}
+                />
+
+                <CardHeader className="gap-3 relative z-10">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <motion.h3
+                        className="text-2xl font-bebas uppercase tracking-wider text-foreground/95 group-hover:text-foreground mb-2"
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: idx * 0.15 + 0.5 }}
+                      >
+                        {project.name}
+                      </motion.h3>
+                      <p className="text-[13px] font-light text-muted-foreground">
+                        {project.tech}
+                      </p>
+                    </div>
+                    <span className="text-[11px] font-light uppercase tracking-[0.3em] text-muted-foreground/70 whitespace-nowrap">
+                      {project.period}
+                    </span>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="space-y-3 text-[13px] font-light leading-relaxed text-muted-foreground relative z-10">
+                  {project.bullets.map((bullet, i) => (
+                    <motion.div
+                      key={i}
+                      className="flex gap-3 items-start"
+                      initial={{ opacity: 0, x: -40 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.8, delay: idx * 0.15 + 0.6 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <span className="text-foreground/40 mt-1">•</span>
                       <p className="flex-1">{bullet}</p>

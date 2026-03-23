@@ -74,4 +74,35 @@ export const blogPosts: BlogPost[] = [
       "Either way, I will probably be writing about the experience here along the way.",
     ],
   },
+  // DRAFT - Prediction Markets Post
+  /*
+  {
+    slug: "prediction-markets-vs-options",
+    title: "Why I'm Bullish on Prediction Markets (And Why They're Not Just Exotic Options)",
+    summary:
+      "Recent research papers on prediction markets have me convinced they're fundamentally different from traditional options markets. Here's why the mechanism design matters more than the surface-level similarities.",
+    date: "2026-03-24",
+    displayDate: "March 24, 2026",
+    readTime: "8 min read",
+    content: [
+      "I have been reading a lot of recent academic papers on prediction markets lately, and the more I dig into them, the more convinced I am that they represent something genuinely different from traditional financial instruments.",
+      "The obvious comparison people make is to options markets. Both let you take positions on future outcomes. Both have implied probabilities baked into pricing. Both can theoretically aggregate information from disparate sources. So why not just use options?",
+      "The answer is in the mechanism design, and it matters more than people think.",
+      "Options markets are derivative instruments. They derive their value from an underlying asset. If you buy a call option on a stock, you are not directly betting on an outcome. You are betting on the price of an asset that is itself influenced by a thousand other factors: earnings, macroeconomic conditions, sector rotation, technical trading patterns, sentiment, volatility regimes.",
+      "Prediction markets, on the other hand, are designed to directly price a binary outcome. Will this event happen or not? The contract resolves to 1 if yes, 0 if no. There is no underlying asset. The market is the asset.",
+      "This might sound like a trivial distinction, but it fundamentally changes the information aggregation properties. In options markets, you have to disentangle the signal about a specific event from all the noise of price action. In prediction markets, the signal is the entire point.",
+      "Recent research has shown that prediction markets are remarkably good at aggregating dispersed information. One paper I read recently looked at election forecasting and found that prediction markets consistently outperformed polling aggregates, not because prediction market traders are smarter, but because the incentive structure forces honesty in a way that surveys do not.",
+      "When you are risking real money on a binary outcome, you have skin in the game. You cannot afford to be wrong for social signaling reasons. You cannot hedge your answer to sound reasonable. You either believe the event will happen or you do not, and the market forces you to put a number on that belief.",
+      "The other thing I find compelling is how prediction markets handle tail risk and low-probability events. Traditional options markets struggle with this. Deep out-of-the-money options are thinly traded, wide bid-ask spreads, poor price discovery. Market makers do not want to touch them because the risk-reward is unclear.",
+      "Prediction markets, by design, are built for exactly this use case. A 5% probability event is still a tradable market. The binary resolution mechanism means liquidity does not dry up just because the outcome is unlikely. If anything, unlikely events with asymmetric information are where prediction markets shine.",
+      "I have also been thinking about the composability of prediction markets. You can create conditional markets: What happens to GDP if X wins the election? What happens to a company's stock if they win this lawsuit? Traditional derivatives can approximate this through spreads and structured products, but the friction is high and the pricing is opaque.",
+      "Prediction markets make conditionality explicit. The contract terms are written in plain language. The resolution criteria are public. There is no counterparty risk if the platform is properly collateralized. The mechanism is transparent in a way that OTC derivatives and even exchange-traded options are not.",
+      "Now, I am not saying prediction markets are perfect. They have real limitations. Liquidity is still a problem for niche markets. Regulatory uncertainty in the US has kept institutional capital on the sidelines. Platform risk is real, especially for crypto-based prediction markets where smart contract bugs or oracle failures can break the entire resolution mechanism.",
+      "But the core idea is sound. The research backs it up. And the fact that platforms like Polymarket, Kalshi, and others are seeing real volume suggests that the market is figuring out the use cases where prediction markets outperform traditional instruments.",
+      "I think the next frontier is structured prediction markets: multi-outcome events, conditional markets, combinatorial markets where you can bet on correlations between events. The design space is huge, and we are still in the early stages of exploring it.",
+      "The comparison to options markets misses the point. Prediction markets are not trying to replace derivatives. They are trying to price information directly. That is a fundamentally different problem, and it requires a fundamentally different mechanism.",
+      "The more papers I read, the more I am convinced that prediction markets are not just a novelty. They are a genuinely useful tool for aggregating information in a way that traditional markets cannot. And that makes them worth paying attention to.",
+    ],
+  },
+  */
 ]
